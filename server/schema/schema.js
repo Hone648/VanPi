@@ -9,7 +9,9 @@ const {
     GraphQLSchema,
     GraphQLID,
     GraphQLInt,
-    GraphQLList } = graphql;
+    GraphQLList,
+    GraphQLNonNull
+} = graphql;
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -46,14 +48,14 @@ const RootQuery = new GraphQLObjectType({
             type: UserType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                console.log(args.id)
+                return User.findById(args.id)
             }
         },
         settings: {
             type: SettingsType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                console.log(args.id)
+                return Settings.findById(args.id)
             }
         },
         users: {
@@ -77,9 +79,9 @@ const Mutation = new GraphQLObjectType({
         addUser: {
             type: UserType,
             args: {
-                name: { type: GraphQLString },
-                password: { type: GraphQLString },
-                access: { type: GraphQLBoolean }
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                password: { type: new GraphQLNonNull(GraphQLString) },
+                access: { type: new GraphQLNonNull(GraphQLBoolean) }
             },
             resolve(parent, args) {
                 let user = new User({
@@ -93,12 +95,12 @@ const Mutation = new GraphQLObjectType({
         addSettings: {
             type: SettingsType,
             args: {
-                mode: { type: GraphQLString },
-                alternatorVisible: { type: GraphQLBoolean },
-                GWAlarm: { type: GraphQLInt },
-                GWDump: { type: GraphQLInt },
-                BWAlarm: { type: GraphQLInt },
-                BWDump: { type: GraphQLInt }
+                mode: { type: new GraphQLNonNull(GraphQLString) },
+                alternatorVisible: { type: new GraphQLNonNull(GraphQLBoolean) },
+                GWAlarm: { type: new GraphQLNonNull(GraphQLInt) },
+                GWDump: { type: new GraphQLNonNull(GraphQLInt) },
+                BWAlarm: { type: new GraphQLNonNull(GraphQLInt) },
+                BWDump: { type: new GraphQLNonNull(GraphQLInt) }
             },
             resolve(parent, args) {
                 let settings = new Settings({
@@ -107,9 +109,7 @@ const Mutation = new GraphQLObjectType({
                     GWAlarm: args.GWAlarm,
                     GWDump: args.GWDump,
                     BWAlarm: args.BWAlarm,
-                    BWDump: args.BWDump,
-                    createdAt: args.createdAt,
-                    updatedAt: args.updatedAt
+                    BWDump: args.BWDump
                 });
                 return settings.save()
             }
