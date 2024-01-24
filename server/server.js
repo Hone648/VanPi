@@ -1,9 +1,14 @@
 require('./mongoose');
 const express = require('express');
+const graphqlHTTP = require('express-graphql');
 const app = express();
 const User = require('./models/user');
 
-app.use(express.json());
+app.listen(5000, () => { console.log("Server started on port 5000") })
+
+app.use('/graphql', graphqlHTTP({
+    
+}));
 
 app.post('/users', async (req, res) => {
     const user = new User(req.body);
@@ -59,5 +64,3 @@ app.delete('/users/:id', async (req, res) => {
         res.status(500).send(error);
     }
 })
-
-app.listen(5000, () => { console.log("Server started on port 5000") })
