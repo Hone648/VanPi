@@ -17,7 +17,10 @@ const UserType = new GraphQLObjectType({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         access: { type: GraphQLBoolean },
-        password: { type: GraphQLString }
+        password: { type: GraphQLString },
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString }
+
     })
 });
 
@@ -30,7 +33,9 @@ const SettingsType = new GraphQLObjectType({
         GWAlarm: { type: GraphQLInt },
         GWDump: { type: GraphQLInt },
         BWAlarm: { type: GraphQLInt },
-        BWDump: { type: GraphQLInt }
+        BWDump: { type: GraphQLInt },
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString }
     })
 })
 
@@ -54,15 +59,15 @@ const RootQuery = new GraphQLObjectType({
         users: {
             type: new GraphQLList(UserType),
             resolve(parent, args) {
-                return users
+                return User.find({})
             }
         },
         allSettings: {
             type: new GraphQLList(SettingsType),
             resolve(parent, args) {
-                return allSettings
+                return Settings.find({})
             }
-        },
+        }
     }
 });
 
@@ -102,7 +107,9 @@ const Mutation = new GraphQLObjectType({
                     GWAlarm: args.GWAlarm,
                     GWDump: args.GWDump,
                     BWAlarm: args.BWAlarm,
-                    BWDump: args.BWDump
+                    BWDump: args.BWDump,
+                    createdAt: args.createdAt,
+                    updatedAt: args.updatedAt
                 });
                 return settings.save()
             }
