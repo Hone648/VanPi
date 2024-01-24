@@ -12,16 +12,6 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }));
 
-app.post('/users', async (req, res) => {
-    const user = new User(req.body);
-    try {
-        await user.save();
-        res.status(201).send(user);
-    } catch (error) {
-        res.status(500).send(error)
-    }
-});
-
 app.get('/users', async (req, res) => {
     try {
         const users = await User.find({})
