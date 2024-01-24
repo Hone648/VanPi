@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    access: {
+        type: Boolean,
+        required: true
+    },
     createdAt: {
         type: Date,
         immutable: true,
