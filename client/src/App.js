@@ -5,6 +5,7 @@ import TopBar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
 import Batteries from './scenes/battery';
+import Notifications from './scenes/notifications';
 import Tanks from './scenes/tanks';
 import { useEffect, useState } from 'react';
 import Settings from './scenes/settings';
@@ -20,6 +21,8 @@ function App() {
   );
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [notifications, setNotifications] = useState(['This is notification 1', 'This is notification 2'])
   useEffect(() => {
 
     const fetchUser = async () => {
@@ -67,6 +70,12 @@ function App() {
                     alternator={alternator}
                     setAlternator={setAlternator}
                   />
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <Notifications notifications={notifications} />
                 }
               />
               <Route
