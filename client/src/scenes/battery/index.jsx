@@ -1,7 +1,9 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import BarChart from '../../components/BarChart';
 import Header from '../../components/Header';
 import Chip from '@mui/material/Chip';
+import { tokens } from '../../theme';
+import { useTheme } from '@emotion/react';
 
 const data = [
   {
@@ -31,32 +33,36 @@ const Batteries = ({ isCollapsed, alternator }) => {
     headerWrapper: {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'space-between'
     },
     headerText: {
-      flex: 1,
+
     },
-    headerChips: {
-      flex: 1,
-      mt: '15px',
-      mr: '10px',
-      textAlign: 'end',
+    headerToolbar: {
+      display: 'flex',
+      justifyContent: 'space-around'
     },
   };
 
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.headerWrapper}>
+      <Box className="wrapper" sx={styles.headerWrapper}>
         <Box sx={styles.headerText}>
           <Header title="Batteries" subtitle="Charge Values and Status" />
         </Box>
-        <Box sx={styles.headerChips}>
-          {alternator ? (
-            <Chip
-              color="success"
-              label={alternatorStatus ? 'Alternator ON' : 'Alternator OFF'}
-              variant={alternatorStatus ? undefined : 'outlined'}
-            />
-          ) : undefined}
+        <Box sx={styles.headerToolbar}>
+          <Box>
+            <Button variant='outlined' color='success'>some button</Button>
+          </Box>
+          <Box>
+            {alternator ? (
+              <Chip
+                color="success"
+                label={alternatorStatus ? 'Alternator ON' : 'Alternator OFF'}
+                variant={alternatorStatus ? undefined : 'outlined'}
+              />
+            ) : undefined}
+          </Box>
         </Box>
       </Box>
       <Box sx={styles.wrapper}>
