@@ -51,7 +51,7 @@ const RootQuery = new GraphQLObjectType({
                 return User.findById(args.id)
             }
         },
-        settings: {
+        setting: {
             type: SettingsType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
@@ -64,7 +64,7 @@ const RootQuery = new GraphQLObjectType({
                 return User.find({})
             }
         },
-        allSettings: {
+        settings: {
             type: new GraphQLList(SettingsType),
             resolve(parent, args) {
                 return Settings.find({})
@@ -112,6 +112,24 @@ const Mutation = new GraphQLObjectType({
                     BWDump: args.BWDump
                 });
                 return settings.save()
+            }
+        },
+        deleteSettings: {
+            type: SettingsType,
+            args: {
+                id: { type: GraphQLID }
+            },
+            resolve(parent, args) {
+                return Settings.findByIdAndDelete(args.id);
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: {
+                id: { type: GraphQLID }
+            },
+            resolve(parent, args) {
+                return User.findByIdAndDelete(args.id);
             }
         }
     }
