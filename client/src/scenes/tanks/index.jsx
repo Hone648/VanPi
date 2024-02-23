@@ -51,6 +51,7 @@ const Tanks = ({ isCollapsed }) => {
     }
 
   }
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.header}>
