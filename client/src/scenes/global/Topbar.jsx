@@ -56,8 +56,8 @@ const TopBar = ({ selected, setSelected }) => {
         </IconButton>
         <Link to='/notifications'>
           <Box sx={styles.notificationsIcon}>
-            <IconButton>
-              <Badge onClick={() => setSelected('notifications')} badgeContent={2} color="secondary">
+            <IconButton onClick={() => setSelected('notifications')}pas>
+              <Badge badgeContent={2} color="secondary">
                 <NotificationsNoneOutlinedIcon />
               </Badge>
             </IconButton>

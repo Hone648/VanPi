@@ -52,9 +52,6 @@ const Batteries = ({ isCollapsed, alternator }) => {
         </Box>
         <Box sx={styles.headerToolbar}>
           <Box>
-            <Button variant='outlined' color='success'>some button</Button>
-          </Box>
-          <Box>
             {alternator ? (
               <Chip
                 color="success"

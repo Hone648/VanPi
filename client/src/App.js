@@ -7,7 +7,7 @@ import Dashboard from './scenes/dashboard';
 import Batteries from './scenes/battery';
 import Notifications from './scenes/notifications';
 import Tanks from './scenes/tanks';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
@@ -21,19 +21,8 @@ function App() {
   );
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [notifications, setNotifications] = useState(['This is notification 1', 'This is notification 2'])
-  useEffect(() => {
 
-    const fetchUser = async () => {
-      const response = await fetch('/api');
-      const data = await response.json();
-      setUser(data)
-      setLoading(false);
-    }
-    fetchUser();
-
-  }, [])
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
