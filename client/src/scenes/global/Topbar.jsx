@@ -56,7 +56,7 @@ const TopBar = ({ selected, setSelected }) => {
         </IconButton>
         <Link to='/notifications'>
           <Box sx={styles.notificationsIcon}>
-            <IconButton onClick={() => setSelected('notifications')}pas>
+            <IconButton onClick={() => setSelected('notifications')} pas>
               <Badge badgeContent={2} color="secondary">
                 <NotificationsNoneOutlinedIcon />
               </Badge>
@@ -70,9 +70,11 @@ const TopBar = ({ selected, setSelected }) => {
             </IconButton>
           </Box>
         </Link>
-        <IconButton>
-          <PersonOutlineOutlinedIcon />
-        </IconButton>
+        <Link to={'/userinfo'}>
+          <IconButton>
+            <PersonOutlineOutlinedIcon />
+          </IconButton>
+        </Link>
         {/* <Badge sx={styles.badgeIcon} badgeContent={3} color='secondary'>
           <MailIcon color="action" />
         </Badge> */}
