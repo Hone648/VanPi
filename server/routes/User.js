@@ -38,4 +38,14 @@ router.get('/user', async (req, res) => {
         res.status(500).json({ msg: "Unable to retrieve Users." })
     }
 })
+
+router.delete('/user/:userId', async (req, res) => {
+    try {
+        User.findByIdAndDelete(req.params.userId)
+
+    }
+    catch (err) {
+        res.status(500).json({ msg: "Unable to delete user." })
+    }
+})
 module.exports = router;

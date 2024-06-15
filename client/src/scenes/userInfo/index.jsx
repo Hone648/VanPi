@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import useUsers from '../../hooks/useUsers';
-
+import Skeleton from '@mui/material/Skeleton';
+import axios from 'axios';
 
 const styles = {
     container: {
@@ -15,16 +16,40 @@ const styles = {
         paddingX: '50px',
         alignItems: 'center',
         m: '4rem'
+    },
+    button: {
+        marginX: '.5rem',
+        width: '100px'
     }
+}
+
+const LoadingPage = () => {
+    return (
+        <Box sx={styles.container}>
+            <Skeleton animation="wave" />
+            <Skeleton animation="wave" />
+            <Skeleton animation="wave" />
+            <Skeleton animation="wave" />
+        </Box>
+    )
 }
 const UserInfo = () => {
     const { data, error, isLoading } = useUsers();
+
+    const handleDelete = (userId) => {
+        axios
+            .delete('http://192.168.1.19:5000/api/user/' + userId)
+            .then(console.log('deleted'))
+    }
+
+    (error) && <span>error.message</span>
+
     if (data) {
         return (
             <>
                 <Box sx={styles.container}>
                     {data.users.map((user) => (
-                        <Box sx={styles.userWrapper}>
+                        <Box key={user._id} sx={styles.userWrapper}>
                             <div>
                                 <Typography key={user._id}>Name: {user.name}</Typography>
                                 <Typography>ID: {user._id}</Typography>
@@ -32,17 +57,21 @@ const UserInfo = () => {
                                 <Typography>Created on: {user.createdAt}</Typography>
                             </div>
                             <div>
-                                <Button color='error' variant='contained'>Delete</Button>
+                                <Button sx={styles.button} color='secondary' variant='contained'>Edit</Button>
+                                <Button onClick={() => handleDelete(user._id)} sx={styles.button} color='error' variant='contained'>Delete</Button>
                             </div>
                         </Box>
                     ))}
-                </Box>
+                </Box >
             </>
         )
     }
     return (
-        <div>
-            <p>Loading...</p>
+        <div style={styles.container}>
+            <Typography>Loading...</Typography>
+            <LoadingPage />
+            <LoadingPage />
+            <LoadingPage />
         </div>
     )
 }
