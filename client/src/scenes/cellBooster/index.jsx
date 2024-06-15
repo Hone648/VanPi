@@ -1,7 +1,12 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
+import LinearProgress from '@mui/material/LinearProgress';
+import { useTheme } from '@emotion/react';
+import { tokens } from '../../theme';
 
 const CellAntenna = ({ isCollapsed }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const styles = {
         container: {
@@ -22,6 +27,21 @@ const CellAntenna = ({ isCollapsed }) => {
             container: {
                 m: '30px',
             }
+        },
+        deployButton: {
+            my: '20px'
+        },
+        progressContainer: {
+            display: 'flex'
+        },
+        progressBar: {
+            flex: 3,
+            mt: '10px'
+        },
+        progressValue: {
+            flex: 1,
+            mx: '10px'
+
         }
     }
 
@@ -33,9 +53,21 @@ const CellAntenna = ({ isCollapsed }) => {
                 </Box>
             </Box>
             <Box sx={styles.content.container}>
-                <Typography>Content</Typography>
+                <Box sx={styles.deployButton}>
+                    <Button variant='outlined' color='secondary'>
+                        <Typography>Deploy Antenna</Typography>
+                    </Button>
+                </Box>
+                <Box sx={styles.progressContainer}>
+                    <Box sx={styles.progressBar}>
+                        <LinearProgress color='secondary' variant="determinate" value={34} />
+                    </Box>
+                    <Box sx={styles.progressValue}>
+                        <Typography variant='h5'>34%</Typography>
+                    </Box>
+                </Box>
             </Box>
-        </Box>
+        </Box >
     )
 }
 
