@@ -4,6 +4,7 @@ const User = require('../models/user');
 
 router.post("/user", async (req, res) => {
     try {
+        console.log('saw');
         const newUser = new User(req.body);
         await newUser.save()
             .then((savedUser) => {
@@ -17,6 +18,24 @@ router.post("/user", async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ msg: "Save was unsuccessful." })
+    }
+})
+
+router.get('/user', async (req, res) => {
+    try {
+        User.find()
+            .then((users) => {
+                console.log(users);
+                res.status(200).json({ users: users });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json({ msg: "Retrieve users was unsuccessful." })
+            })
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: "Unable to retrieve Users." })
     }
 })
 module.exports = router;

@@ -11,13 +11,8 @@ import { useState } from 'react';
 import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import useUsers from './hooks/useUsers';
 
-const queryClient = new QueryClient();
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,12 +25,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState(['This is notification 1', 'This is notification 2'])
 
+  const { data } = useUsers();
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools />
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
           <div className="app">
             <Sidebar
               isCollapsed={isCollapsed}
@@ -86,9 +80,8 @@ function App() {
               </Routes>
             </main>
           </div>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
   );
 }
 
