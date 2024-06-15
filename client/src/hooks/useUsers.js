@@ -10,7 +10,8 @@ const useUsers = () => {
     return useQuery({
         queryKey: ['users'],
         queryFn: fetchUsers,
-        staleTime: 60 * 5000
+        staleTime: 2000,
+        refetchInterval: 2000
     })
 }
 export default useUsers;

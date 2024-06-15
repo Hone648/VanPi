@@ -12,7 +12,6 @@ import { useState } from 'react';
 import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
-import useUsers from './hooks/useUsers';
 
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState(['This is notification 1', 'This is notification 2'])
 
-  const { data, error, isLoading } = useUsers();
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -69,7 +67,7 @@ function App() {
               <Route
                 path='/userinfo'
                 element={
-                  <UserInfo data={data} error={error} isLoading={isLoading} />
+                  <UserInfo />
                 }
               />
               <Route
