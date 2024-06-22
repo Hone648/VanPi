@@ -143,6 +143,9 @@ export const themeSettings = (mode) => {
           background: {
             default: colors.primary[500],
           },
+          red: {
+            default: colors.redAccent[500]
+          }
         }
         : {
           primary: {

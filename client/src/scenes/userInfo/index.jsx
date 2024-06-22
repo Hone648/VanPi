@@ -2,6 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 import useUsers from '../../hooks/useUsers';
 import Skeleton from '@mui/material/Skeleton';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const styles = {
     container: {
@@ -62,7 +64,9 @@ const UserInfo = () => {
                             </div>
                         </Box>
                     ))}
-                    <Button sx={styles.button} color='secondary' variant='contained'>Add User</Button>
+                    <Link to="/createuser">
+                        <Button sx={styles.button} color='secondary' variant='contained'>Add User</Button>
+                    </Link>
                 </Box >
             </>
         )

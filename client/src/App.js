@@ -12,6 +12,7 @@ import { useState } from 'react';
 import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
+import CreateUserForm from './scenes/userInfo/createUserForm';
 
 
 function App() {
@@ -82,6 +83,10 @@ function App() {
                   <CellAntenna isCollapsed={isCollapsed}
                   />
                 }
+              />
+              <Route
+                path="/createuser"
+                element={<CreateUserForm />}
               />
             </Routes>
           </main>
