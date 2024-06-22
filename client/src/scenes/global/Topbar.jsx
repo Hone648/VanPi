@@ -37,6 +37,10 @@ const TopBar = ({ selected, setSelected }) => {
       borderRadius: '50%',
       backgroundColor: selected === 'notifications' && colors.blueAccent[700],
       mx: 1
+    },
+    usersIcon: {
+      borderRadius: '50%',
+      backgroundColor: selected === 'users' && colors.blueAccent[700]
     }
   };
   return (
@@ -56,7 +60,7 @@ const TopBar = ({ selected, setSelected }) => {
         </IconButton>
         <Link to='/notifications'>
           <Box sx={styles.notificationsIcon}>
-            <IconButton onClick={() => setSelected('notifications')} pas>
+            <IconButton onClick={() => setSelected('notifications')}>
               <Badge badgeContent={2} color="secondary">
                 <NotificationsNoneOutlinedIcon />
               </Badge>
@@ -71,15 +75,17 @@ const TopBar = ({ selected, setSelected }) => {
           </Box>
         </Link>
         <Link to={'/userinfo'}>
-          <IconButton>
-            <PersonOutlineOutlinedIcon />
-          </IconButton>
+          <Box sx={styles.usersIcon}>
+            <IconButton onClick={() => setSelected('users')} >
+              <PersonOutlineOutlinedIcon />
+            </IconButton>
+          </Box>
         </Link>
         {/* <Badge sx={styles.badgeIcon} badgeContent={3} color='secondary'>
           <MailIcon color="action" />
         </Badge> */}
       </Box>
-    </Box>
+    </Box >
   );
 };
 

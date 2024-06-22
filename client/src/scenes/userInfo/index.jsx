@@ -34,12 +34,12 @@ const LoadingPage = () => {
     )
 }
 const UserInfo = () => {
-    const { data, error, isLoading } = useUsers();
+    const { data, error } = useUsers();
 
     const handleDelete = (userId) => {
         axios
             .delete('http://192.168.1.19:5000/api/user/' + userId)
-            .then(console.log('deleted'))
+            .then(res => res.data)
     }
 
     (error) && <span>error.message</span>
@@ -62,6 +62,7 @@ const UserInfo = () => {
                             </div>
                         </Box>
                     ))}
+                    <Button sx={styles.button} color='secondary' variant='contained'>Add User</Button>
                 </Box >
             </>
         )

@@ -4,20 +4,20 @@ const User = require('../models/user');
 
 router.post("/user", async (req, res) => {
     try {
-        console.log('saw');
         const newUser = new User(req.body);
         await newUser.save()
             .then((savedUser) => {
-                console.log(savedUser);
-                res.status(201).json({ msg: "User saved successfully." })
+                res.status(201).json({
+                    msg: savedUser
+                })
             })
             .catch((err) => {
                 console.log(err);
-                res.status(500).json({ msg: "Save was unsuccessful." })
+                res.status(500).json({ msg: err.message })
             })
     } catch (err) {
         console.log(err);
-        res.status(500).json({ msg: "Save was unsuccessful." })
+        res.status(500).json({ msg: err.message })
     }
 })
 
@@ -25,7 +25,6 @@ router.get('/user', async (req, res) => {
     try {
         User.find()
             .then((users) => {
-                console.log(users);
                 res.status(200).json({ users: users });
             })
             .catch((err) => {
@@ -41,11 +40,12 @@ router.get('/user', async (req, res) => {
 
 router.delete('/user/:userId', async (req, res) => {
     try {
-        User.findByIdAndDelete(req.params.userId)
-
+        const id = req.params.userId;
+        const userDelete = await User.findByIdAndDelete(id);
+        res.send("User deleted successfully.")
     }
     catch (err) {
-        res.status(500).json({ msg: "Unable to delete user." })
+        res.status(500).json({ msg: err.message })
     }
 })
 module.exports = router;
