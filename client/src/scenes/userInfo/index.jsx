@@ -6,8 +6,13 @@ import { Link } from 'react-router-dom';
 
 
 const styles = {
-    container: {
-        padding: '20px',
+    addUserWrapper: {
+        m: '30px',
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    usersContainer: {
+        ml: '20px',
         maxHeight: '91vh',
         overflow: 'scroll',
         overflowX: 'hidden',
@@ -21,7 +26,7 @@ const styles = {
     },
     button: {
         marginX: '.5rem',
-        width: '100px'
+        width: '100px',
     }
 }
 
@@ -49,7 +54,7 @@ const UserInfo = () => {
     if (data) {
         return (
             <>
-                <Box sx={styles.container}>
+                <Box sx={styles.usersContainer}>
                     {data.users.map((user) => (
                         <Box key={user._id} sx={styles.userWrapper}>
                             <div>
@@ -65,9 +70,14 @@ const UserInfo = () => {
                         </Box>
                     ))}
                     <Link to="/createuser">
-                        <Button sx={styles.button} color='secondary' variant='contained'>Add User</Button>
                     </Link>
                 </Box >
+                {data.users.length < 3 ?
+                    <Box sx={styles.addUserWrapper}>
+                        <Button disabled={data.users.length > 2} color='secondary' variant='contained'>Add User</Button>
+                    </Box>
+                    : undefined
+                }
             </>
         )
     }
