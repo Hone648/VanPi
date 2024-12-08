@@ -13,20 +13,16 @@ import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
 import CreateUserForm from './scenes/userInfo/createUserForm';
-import useMqtt from './hooks/useMqtt'
 
 
 function App() {
-  const client = useMqtt();
   const [theme, colorMode] = useMode();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState('Dashboard');
   const [alternator, setAlternator] = useState(
     configurationData.batteries.alternatorDisplayed
   );
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState(['This is notification 1', 'This is notification 2'])
+  const notifications = ['This is notification 1', 'This is notification 2']
 
 
   return (

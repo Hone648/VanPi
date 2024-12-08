@@ -1,9 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import BarChart from '../../components/BarChart';
 import Header from '../../components/Header';
 import Chip from '@mui/material/Chip';
-import { tokens } from '../../theme';
-import { useTheme } from '@emotion/react';
 
 const data = [
   {

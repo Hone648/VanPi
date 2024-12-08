@@ -1,13 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
+import useMqtt from '../../hooks/useMqtt';
+import { useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useTheme } from '@emotion/react';
-import { tokens } from '../../theme';
+import usePublish from '../../hooks/usePublish';
 
 const CellAntenna = ({ isCollapsed }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
     const styles = {
         container: {
             m: '10px',
@@ -30,21 +28,16 @@ const CellAntenna = ({ isCollapsed }) => {
         },
         deployButton: {
             my: '20px'
-        },
-        progressContainer: {
-            display: 'flex'
-        },
-        progressBar: {
-            flex: 3,
-            mt: '10px'
-        },
-        progressValue: {
-            flex: 1,
-            mx: '10px'
-
         }
     }
-
+    const [buttonState, setButtonState] = useState(0);
+    const [antennaState, setAntennaState] = useState('Idle');
+    const client = useMqtt();
+    const handleClick = () => {
+        buttonState ? setAntennaState('Lowering Antenna...') : setAntennaState('Raising Antenna...');
+        setButtonState(!buttonState);
+    };
+    usePublish(client, 'antenna', 'raise');
     return (
         <Box sx={styles.container}>
             <Box sx={styles.headerWrapper}>
@@ -54,16 +47,18 @@ const CellAntenna = ({ isCollapsed }) => {
             </Box>
             <Box sx={styles.content.container}>
                 <Box sx={styles.deployButton}>
-                    <Button variant='outlined' color='secondary'>
-                        <Typography>Deploy Antenna</Typography>
+                    <Button onClick={() => handleClick()} variant='outlined' color='secondary'>
+                        <Typography>{buttonState ? 'Lower Antenna' : 'Raise Antenna'}</Typography>
                     </Button>
                 </Box>
                 <Box sx={styles.progressContainer}>
                     <Box sx={styles.progressBar}>
-                        <LinearProgress color='secondary' variant="determinate" value={34} />
+                        <Typography variant='h3'>{antennaState !== "Idle" ? antennaState : undefined}</Typography>
                     </Box>
-                    <Box sx={styles.progressValue}>
-                        <Typography variant='h5'>34%</Typography>
+                    <Box sx={{ width: '75%', mt: '20px' }}>
+                        {antennaState !== 'Idle' ?
+                            <LinearProgress color='inherit' /> :
+                            undefined}
                     </Box>
                 </Box>
             </Box>
