@@ -13,9 +13,11 @@ import Settings from './scenes/settings';
 import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
 import CreateUserForm from './scenes/userInfo/createUserForm';
+import useMqtt from './hooks/useMqtt'
 
 
 function App() {
+  const client = useMqtt();
   const [theme, colorMode] = useMode();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState('Dashboard');
