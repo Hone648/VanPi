@@ -10,6 +10,7 @@ router.post("/user", async (req, res) => {
                 msg: "Cannot create more than 3 users"
             });
         }
+
         const newUser = new User(req.body);
         await newUser.save()
             .then((savedUser) => {
