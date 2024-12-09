@@ -14,7 +14,6 @@ import { configurationData } from './data/config';
 import CellAntenna from './scenes/cellBooster';
 import CreateUserForm from './scenes/userInfo/createUserForm';
 
-
 function App() {
   const [theme, colorMode] = useMode();
   const [isCollapsed, setIsCollapsed] = useState(false);

@@ -3,38 +3,39 @@ import useUsers from '../../hooks/useUsers';
 import Skeleton from '@mui/material/Skeleton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { Routes, Route } from 'react-router-dom';
 
 const styles = {
-    addUserWrapper: {
-        m: '30px',
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    usersContainer: {
+    container: {
         ml: '20px',
-        maxHeight: '91vh',
-        overflow: 'scroll',
+        maxHeight: '100%',
         overflowX: 'hidden',
+        p: '50px'
     },
-    userWrapper: {
+    usersWrapper: {
         display: 'flex',
         justifyContent: 'space-between',
         paddingX: '50px',
-        alignItems: 'center',
-        m: '4rem'
+        alignItems: 'center'
+    },
+    userTypography: {
+        p: '10px'
+    },
+    userButtons: {
+        p: '10px'
+    },
+    addUser: {
+        mt: '20px'
     },
     button: {
-        marginX: '.5rem',
-        width: '100px',
-    }
+        m: '5px',
+    },
 }
 
 const LoadingPage = () => {
     return (
         <Box sx={styles.container}>
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
+            <Typography>Loading...</Typography>
             <Skeleton animation="wave" />
             <Skeleton animation="wave" />
         </Box>
@@ -45,7 +46,7 @@ const UserInfo = () => {
 
     const handleDelete = (userId) => {
         axios
-            .delete('http://192.168.1.19:5000/api/user/' + userId)
+            .delete('http://localhost:5000/api/user/' + userId)
             .then(res => res.data)
     }
 
@@ -54,40 +55,41 @@ const UserInfo = () => {
     if (data) {
         return (
             <>
-                <Box sx={styles.usersContainer}>
+                <Box sx={styles.container}>
                     {data.users.map((user) => (
-                        <Box key={user._id} sx={styles.userWrapper}>
-                            <div>
+                        <Box key={user._id} sx={styles.usersWrapper}>
+                            <Box sx={styles.userTypography}>
                                 <Typography key={user._id}>Name: {user.name}</Typography>
                                 <Typography>ID: {user._id}</Typography>
                                 <Typography>Access: {user.access ? 'Admin' : 'User'}</Typography>
-                                <Typography>Created on: {user.createdAt}</Typography>
-                            </div>
-                            <div>
+                                <Typography>Created on: {new Date(user.createdAt).toLocaleDateString("en-US")}</Typography>
+                            </Box>
+                            <Box sx={styles.userButtons}>
                                 <Button sx={styles.button} color='secondary' variant='contained'>Edit</Button>
-                                <Button onClick={() => handleDelete(user._id)} sx={styles.button} color='error' variant='contained'>Delete</Button>
-                            </div>
+                                <Button sx={styles.button} onClick={() => handleDelete(user._id)} color='error' variant='contained'>Delete</Button>
+                            </Box>
                         </Box>
                     ))}
                     <Link to="/createuser">
+                        {data.users.length < 3 ?
+                            <Box>
+                                <Box sx={styles.addUser}>
+                                    <Button sx={styles.button} disabled={data.users.length > 2} color='secondary' variant='contained'>Add User</Button>
+                                </Box>
+                            </Box>
+                            : undefined
+                        }
                     </Link>
                 </Box >
-                {data.users.length < 3 ?
-                    <Box sx={styles.addUserWrapper}>
-                        <Button disabled={data.users.length > 2} color='secondary' variant='contained'>Add User</Button>
-                    </Box>
-                    : undefined
-                }
             </>
         )
     }
     return (
-        <div style={styles.container}>
-            <Typography>Loading...</Typography>
+        <Box style={styles.container}>
             <LoadingPage />
             <LoadingPage />
             <LoadingPage />
-        </div>
+        </Box>
     )
 }
 
