@@ -25,9 +25,13 @@ const styles = {
         p: '10px'
     },
     addUser: {
-        mt: '20px'
+        display: 'flex',
+        justifyContent: 'center',
+        mt: '20px',
+        width: '100%',
     },
     button: {
+        textDecoration: 'none',
         m: '5px',
     },
 }

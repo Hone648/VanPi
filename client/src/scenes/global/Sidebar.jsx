@@ -100,7 +100,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, selected, setSelected }) => {
             {!isCollapsed && (
               <Box sx={styles.menu.wrapper}>
                 <Typography variant="h3" color={colors.grey[100]}>
-                  Scenes
+                  Menu
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
