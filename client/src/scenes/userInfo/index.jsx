@@ -3,7 +3,6 @@ import useUsers from '../../hooks/useUsers';
 import Skeleton from '@mui/material/Skeleton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
 
 const styles = {
     container: {
