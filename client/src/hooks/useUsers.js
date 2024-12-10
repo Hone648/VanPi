@@ -13,7 +13,6 @@ const useUsers = () => {
         queryFn: fetchUsers,
         staleTime: 2000,
         refetchInterval: 2000,
-
     })
 }
 export default useUsers;

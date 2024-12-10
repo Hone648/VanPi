@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const CurrentUser = require('../models/currentUser');
-const User = require('../models/user');
 
 router.post('/currentUser', async (req, res) => {
     try {
@@ -21,7 +20,6 @@ router.post('/currentUser', async (req, res) => {
         res.status(500).json({ msg: err.message })
     }
 })
-
 router.get('/currentUser/', async (req, res) => {
     try {
         CurrentUser.find()

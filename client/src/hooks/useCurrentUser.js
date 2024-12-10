@@ -10,7 +10,6 @@ const useCurrentUser = (id) => {
         return useQuery({
             queryKey: ['currentUser'],
             queryFn: fetchCurrentUser,
-
         })
     }
 }
