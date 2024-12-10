@@ -1,5 +1,6 @@
 require('./mongoose');
 require('./routes/User');
+require('./routes/CurrentUser');
 const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require('cors');
@@ -12,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const User = require('./routes/User');
 app.use("/api", User);
+
+const CurrentUser = require('./routes/CurrentUser');
+app.use("/api", CurrentUser);
 
 const port = 5000;
 

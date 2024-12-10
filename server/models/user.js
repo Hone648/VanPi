@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        unique:true,
+        unique: true,
         minLength: 2,
         required: [true, "Name is required"],
         validate: {
@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     access: {
         type: Boolean,
         required: true
+    },
+    settings: {
+        mode: String,
+        sidebar: Boolean,
     },
     createdAt: {
         type: Date,
