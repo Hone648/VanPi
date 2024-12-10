@@ -67,7 +67,7 @@ const TanksControls = () => {
       </Box>
       <Box>
         <Box sx={styles.subsection}>
-          <Typography sx={{ textDecoration: 'underline' }} variant="h3">
+          <Typography variant="h3">
             Grey Water:
           </Typography>
           <Item title="Alarm SetPoint:" label="Value" placeholder="80%" />
@@ -78,7 +78,7 @@ const TanksControls = () => {
           />
         </Box>
         <Box sx={styles.subsection}>
-          <Typography sx={{ textDecoration: 'underline' }} variant="h3">
+          <Typography variant="h3">
             Black Water:
           </Typography>
           <Item title="Alarm SetPoint:" label="Value" placeholder="80%" />

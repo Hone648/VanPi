@@ -1,8 +1,13 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, FormHelperText, TextField } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 import useUsers from '../../hooks/useUsers';
 import Skeleton from '@mui/material/Skeleton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Header from '../../components/Header';
 
 const styles = {
     container: {
@@ -33,20 +38,35 @@ const styles = {
         textDecoration: 'none',
         m: '5px',
     },
+    form: {
+        justifyContent: 'space-between',
+        ml: '20px',
+        maxHeight: '100%',
+        overflowX: 'hidden',
+        p: '50px'
+    }
 }
 
 const LoadingPage = () => {
+    const items = [1, 2, 3]
     return (
-        <Box sx={styles.container}>
-            <Typography>Loading...</Typography>
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-        </Box>
+        <>
+            {items.map((value, index) => {
+                return (
+                    <Box key={index} sx={styles.container}>
+                        <Typography>Loading...</Typography>
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                    </Box >
+                )
+            })
+            }
+        </>
     )
 }
 const UserInfo = () => {
+    let access = "Admin"
     const { data, error } = useUsers();
-
     const handleDelete = (userId) => {
         axios
             .delete('http://localhost:5000/api/user/' + userId)
@@ -58,6 +78,7 @@ const UserInfo = () => {
     if (data) {
         return (
             <>
+                <Header title='Users' subtitle='Create, View, Edit, and Delete Users' />
                 <Box sx={styles.container}>
                     {data.users.map((user) => (
                         <Box key={user._id} sx={styles.usersWrapper}>
@@ -77,7 +98,29 @@ const UserInfo = () => {
                         {data.users.length < 3 ?
                             <Box>
                                 <Box sx={styles.addUser}>
-                                    <Button sx={styles.button} disabled={data.users.length > 2} color='secondary' variant='contained'>Add User</Button>
+                                    <Box>
+                                        <Box component='form' sx={styles.form}>
+                                            <Box>
+                                                <FormControl sx={styles.inputs} variant="standard">
+                                                    <TextField label='Name' variant='filled' id="name" color='secondary' />
+                                                    <InputLabel id="access">Access</InputLabel>
+                                                    <Select
+                                                        // disabled
+                                                        // labelId="access"
+                                                        id="access"
+                                                        value={access}
+                                                        onChange={console.log('changed')}
+                                                        color='primary'
+                                                    >
+                                                        <MenuItem value='admin'>Admin</MenuItem>
+                                                        <MenuItem value='user'>User</MenuItem>
+                                                    </Select>
+                                                    <FormHelperText>Disabled: Admin use only.</FormHelperText>
+                                                    <Button sx={styles.button} disabled={data.users.length > 2} color='secondary' variant='contained'>Add User</Button>
+                                                </FormControl>
+                                            </Box>
+                                        </Box>
+                                    </Box>
                                 </Box>
                             </Box>
                             : undefined
@@ -86,14 +129,13 @@ const UserInfo = () => {
                 </Box >
             </>
         )
+    } else {
+        return (
+            <Box style={styles.container}>
+                <LoadingPage />
+            </Box>
+        )
     }
-    return (
-        <Box style={styles.container}>
-            <LoadingPage />
-            <LoadingPage />
-            <LoadingPage />
-        </Box>
-    )
 }
 
 export default UserInfo;

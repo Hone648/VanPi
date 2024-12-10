@@ -8,8 +8,8 @@ const Header = ({ title, subtitle }) => {
   const styles = {
     container: {
       display: 'flex',
-      mx: '15px',
-      px: '10px',
+      m: '15px',
+      p: '10px',
       justifyContent: 'space-between',
     },
     title: {
@@ -20,7 +20,6 @@ const Header = ({ title, subtitle }) => {
     subtitle: {
       color: colors.greenAccent[400],
     },
-    controls: {},
   };
   return (
     <Box sx={styles.container}>

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const useUsers = () => {
+
     const fetchUsers = () =>
         axios
             .get('http://localhost:5000/api/user')
