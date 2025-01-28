@@ -3,7 +3,6 @@ import Header from '../../components/Header';
 import useMqtt from '../../hooks/useMqtt';
 import { useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
-import usePublish from '../../hooks/usePublish';
 
 const CellAntenna = ({ isCollapsed }) => {
     const styles = {
@@ -37,7 +36,6 @@ const CellAntenna = ({ isCollapsed }) => {
         buttonState ? setAntennaState('Lowering Antenna...') : setAntennaState('Raising Antenna...');
         setButtonState(!buttonState);
     };
-    usePublish(client, 'antenna', 'raise');
     return (
         <Box sx={styles.container}>
             <Box sx={styles.headerWrapper}>

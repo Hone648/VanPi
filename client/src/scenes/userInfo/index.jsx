@@ -69,7 +69,7 @@ const UserInfo = () => {
     const { data, error } = useUsers();
     const handleDelete = (userId) => {
         axios
-            .delete('http://localhost:5000/api/user/' + userId)
+            .delete('http://192.168.1.51:5000/api/user/' + userId)
             .then(res => res.data)
     }
 

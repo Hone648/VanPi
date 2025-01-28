@@ -5,7 +5,7 @@ const useUsers = () => {
 
     const fetchUsers = () =>
         axios
-            .get('http://localhost:5000/api/user')
+            .get('http://192.168.1.51:5000/api/user')
             .then((res) => res.data);
 
     return useQuery({

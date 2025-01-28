@@ -8,6 +8,7 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { MqttProvider } from './context/MqttContext'; // Adjust the path as needed
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
-        <App />
+        <MqttProvider>
+          <App />
+        </MqttProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
