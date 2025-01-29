@@ -2,6 +2,7 @@ import network
 import time
 from machine import Pin
 from umqtt.simple import MQTTClient
+from config import SSID, PASSWORD
 
 # MQTT setup
 MQTT_BROKER = "192.168.1.51"
@@ -10,9 +11,6 @@ MQTT_TOPIC = "antenna/control"
 STATUS_TOPIC = "antenna/status"  # Topic for antenna state updates
 REQUEST_TOPIC = "antenna/status/request"  # Corrected topic for status requests
 
-# Wi-Fi setup
-SSID = "BellWiFi1"
-PASSWORD = "Bell1411!"
 
 # Pin setup
 step_pin = Pin(7, Pin.OUT)  # Step pin for stepper motor
