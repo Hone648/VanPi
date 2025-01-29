@@ -1,60 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
 import useMqtt from '../../hooks/useMqtt';
-import { useState } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
 
 const CellAntenna = ({ isCollapsed }) => {
     const styles = {
-        container: {
-            m: '10px',
-        },
-        wrapper: {
-            height: '79vh',
-            width: isCollapsed ? '92vw' : '77vw',
-        },
-        headerWrapper: {
-            display: 'flex',
-            alignItems: 'center',
-        },
-        headerText: {
-            flex: 1,
-        },
-        content: {
-            container: {
-                m: '30px',
-            }
-        },
-        deployButton: {
-            my: '20px'
-        }
-    }
-    const mqttClient = useMqtt(); // Get the client from context
+        container: { m: '10px' },
+        wrapper: { height: '79vh', width: isCollapsed ? '92vw' : '77vw' },
+        headerWrapper: { display: 'flex', alignItems: 'center' },
+        headerText: { flex: 1 },
+        content: { container: { m: '30px' } },
+        deployButton: { my: '20px' }
+    };
 
+    const mqttClient = useMqtt();
     const [buttonState, setButtonState] = useState(0);
-    const [antennaState, setAntennaState] = useState('Idle');
+    const [antennaState, setAntennaState] = useState();
 
     useEffect(() => {
         if (mqttClient) {
-            // Subscribe to the topic when the component mounts
+            // Subscribe to necessary topics
             mqttClient.subscribe('antenna/control', (err) => {
                 if (err) console.error('Subscription Error:', err);
                 else console.log('Subscribed to antenna/control');
             });
+            mqttClient.subscribe('antenna/status', (err) => {
+                if (err) console.error('Subscription Error:', err);
+                else console.log('Subscribed to antenna/status');
+            });
+
+            // Request current antenna state when component mounts
+            mqttClient.publish('antenna/status/request', 'get');
 
             // Listen for messages
             mqttClient.on('message', (topic, message) => {
-                console.log(`Received message on ${topic}: ${message.toString()}`);
+                const msg = message.toString();
 
-                if (topic === 'antenna/control' && message.toString() === 'raised') {
-                    setAntennaState('Completed');
+                if (topic === 'antenna/control') {
+                    setAntennaState(msg === 'Completed' ? 'Completed' : 'Moving Antenna...');
+                }
+
+                if (topic === 'antenna/status') {
+                    if (msg === 'Raised') {
+                        setAntennaState('Antenna Raised');
+                        setButtonState(1);
+                    } else if (msg === 'Lowered') {
+                        setAntennaState('Antenna Lowered');
+                        setButtonState(0);
+                    }
                 }
             });
 
             // Cleanup on unmount
             return () => {
                 mqttClient.unsubscribe('antenna/control');
+                mqttClient.unsubscribe('antenna/status');
                 mqttClient.removeAllListeners('message');
             };
         }
@@ -62,10 +62,9 @@ const CellAntenna = ({ isCollapsed }) => {
 
     const handleClick = () => {
         if (mqttClient) {
-            mqttClient.publish('antenna/control', buttonState ? "Lower" : "Raise");
-            console.log(`Sent command: ${buttonState ? "Lower" : "Raise"}`);
+            const action = buttonState ? 'Lower' : 'Raise';
+            mqttClient.publish('antenna/control', action);
         }
-        buttonState ? setAntennaState('Lowering Antenna...') : setAntennaState('Raising Antenna...');
         setButtonState(!buttonState);
     };
 
@@ -78,22 +77,28 @@ const CellAntenna = ({ isCollapsed }) => {
             </Box>
             <Box sx={styles.content.container}>
                 <Box sx={styles.deployButton}>
-                    <Button onClick={() => handleClick()} variant='outlined' color='secondary'>
+                    <Button
+                        disabled={
+                            antennaState !== 'Antenna Raised' &&
+                            antennaState !== 'Antenna Lowered'
+                        }
+                        onClick={handleClick}
+                        variant='outlined'
+                        color='secondary'
+                    >
                         <Typography>{buttonState ? 'Lower Antenna' : 'Raise Antenna'}</Typography>
                     </Button>
                 </Box>
                 <Box sx={styles.progressContainer}>
                     <Box sx={styles.progressBar}>
-                        {antennaState !== "Idle" ? (antennaState === "Completed" ? "Completed" : antennaState) : undefined}                    </Box>
-                    <Box sx={{ width: '75%', mt: '20px' }}>
-                        {antennaState !== 'Idle' ?
-                            (antennaState === "Completed" ? undefined : <LinearProgress color='inherit' />) :
-                            undefined}
+                        {antennaState !== 'Idle' && (
+                            <Typography variant='h2'>{antennaState}</Typography>
+                        )}
                     </Box>
                 </Box>
             </Box>
-        </Box >
-    )
-}
+        </Box>
+    );
+};
 
-export default CellAntenna
+export default CellAntenna;
