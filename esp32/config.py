@@ -1,2 +1,2 @@
 SSID = "BellWiFi1"
-PASSWORD = "Bell1411!"
+PASSWORD = "Bell14aasaa11!"
