@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import useMqtt from '../../hooks/useMqtt';
 import { useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
+import AntennaControl from '../../components/AntennaControl';
 
 const CellAntenna = ({ isCollapsed }) => {
     const styles = {
@@ -60,6 +61,7 @@ const CellAntenna = ({ isCollapsed }) => {
                     </Box>
                 </Box>
             </Box>
+            <AntennaControl />
         </Box >
     )
 }

@@ -4,7 +4,7 @@ import mqtt from 'mqtt';
 export const MqttContext = createContext(null);
 
 export const MqttProvider = ({ children }) => {
-    const brokerUrl = 'ws://192.168.1.25:9001'; // Correct WebSocket port
+    const brokerUrl = 'ws://192.168.1.51:9002'; // Correct WebSocket port
     const options = { username: 'hunter', password: 'passwd' };
 
     const [client, setClient] = useState(null);
