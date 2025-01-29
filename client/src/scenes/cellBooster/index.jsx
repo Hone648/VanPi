@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header';
 import useMqtt from '../../hooks/useMqtt';
@@ -6,6 +7,29 @@ import LinearProgress from '@mui/material/LinearProgress';
 import AntennaControl from '../../components/AntennaControl';
 
 const CellAntenna = ({ isCollapsed }) => {
+    const mqttClient = useMqtt(); // Get the client from context
+
+    useEffect(() => {
+        if (mqttClient) {
+            // Subscribe to the topic when the component mounts
+            mqttClient.subscribe('antenna/control', (err) => {
+                if (err) console.error('Subscription Error:', err);
+                else console.log('Subscribed to antenna/control');
+            });
+
+            // Listen for messages
+            mqttClient.on('message', (topic, message) => {
+                console.log(`Received message on ${topic}: ${message.toString()}`);
+            });
+
+            // Cleanup on unmount
+            return () => {
+                mqttClient.unsubscribe('antenna/control');
+                mqttClient.removeAllListeners('message');
+            };
+        }
+    }, [mqttClient]);
+
     const styles = {
         container: {
             m: '10px',
@@ -34,6 +58,10 @@ const CellAntenna = ({ isCollapsed }) => {
     const [antennaState, setAntennaState] = useState('Idle');
     const client = useMqtt();
     const handleClick = () => {
+        if (mqttClient) {
+            mqttClient.publish('antenna/control', buttonState ? "Lower" : "Raise");
+            console.log(`Sent command: ${buttonState ? "Lower" : "Raise"}`);
+        }
         buttonState ? setAntennaState('Lowering Antenna...') : setAntennaState('Raising Antenna...');
         setButtonState(!buttonState);
     };
@@ -61,7 +89,6 @@ const CellAntenna = ({ isCollapsed }) => {
                     </Box>
                 </Box>
             </Box>
-            <AntennaControl />
         </Box >
     )
 }
